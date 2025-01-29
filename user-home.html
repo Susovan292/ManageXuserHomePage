@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ManageX</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Leckerli+One&display=swap');
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body{
+            background-color: #d7d6d6;
+            color: #ffffff;
+            
+        }
+        nav{
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #ffffff;
+            color: black;
+            height: 70px;
+            z-index: 100;
+            filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.3));
+        }
+        /* .nav-left{
+             background-color: yellow; 
+        } */
+        .nav-left h1{
+            font-size: 1.5rem;
+            font-family: "Lexend", serif;
+            font-weight: bold;
+        }
+        .nav-left h1{
+            cursor: pointer;
+        }
+
+        /* .nav-right {
+             background-color: red; 
+        } */
+
+
+        /* ham menu closed */
+        .ham-icon {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 35px;
+            height: 25px;
+            cursor: pointer;
+            z-index: 3;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .ham-icon span {
+            display: block;
+            width: 35px;
+            height: 5px;
+            background-color: #000;
+            border-radius: 5px;
+            transition: all 0.3s ease-in-out;
+
+        }
+
+        /* ham menu open */
+        .ham-icon.open span:nth-child(2) {
+            background-color: white;
+            width: 0px;
+            /* display: none; */
+        }
+
+        .ham-icon.open span:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 9px);
+        }
+        
+        .ham-icon.open span:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -9px);
+        }
+
+
+        .ham-menu {
+            /* display: block; */
+            position: fixed;
+            top: 70px;
+            right: -320px;
+            max-width: 300px;
+            min-width: 200px;
+            width: 100%;
+            background-color: rgb(233, 231, 231);
+            color: black;
+            z-index: 2;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .ham-menu.open {
+            right: 0px;
+        }
+
+        .ham-menu ul {
+            display: flex;
+            flex-direction: column;
+            margin-top: 10px;
+        }
+        .ham-menu ul li {
+            display: flex;
+            align-items: center;
+            /* background-color: pink; */
+            list-style: none;
+            font-size: 1.5rem;
+            font-family: "Lexend", serif;
+            font-weight: 400;
+            border-bottom: 1px solid #000;
+            padding: 10px 15px;
+            transition: all 0.2s ease-out;
+        }
+        .ham-menu ul li:hover{
+            background-color: white;
+        }
+
+
+        section{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            min-height: 30vh;
+            background-color: #cecece;
+            /* height: 100dvh; */
+        }
+
+        section h2 {
+            font-family: "Lexend", serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #000000;
+        }
+
+        #hero-section{
+            margin-top: 70px;
+            min-height: 30vh;
+            /* max-height: 60vh; */
+            background-color: rgba(255, 227, 251, 0.696);
+
+            
+            justify-content: flex-start;
+            gap: 3rem;
+            padding: 50px 0px;
+        }
+
+        .tag-line-container{
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tag-line-container h3{
+            font-family: "Lexend", serif;
+            color: #1C00F1;
+            text-shadow: 0px 0px 10px rgba(0, 0, 255, 0.8);
+            filter: drop-shadow(0px 0px 30px rgb(0, 34, 255));
+            font-size: 3vw;
+            letter-spacing: 5px;
+        }
+        .search-box{
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        #search-event-btn{
+            font-family: "Lexend", serif;
+            font-weight: 400;
+            font-size: 1.5rem;
+            padding: 10px 20px;
+            border: none;
+            background-color: #ffffff;
+            filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.1));
+            color: #6b6b6b;
+            border-radius: 10px;
+            border: none;
+            outline: none;
+            width: 100%;
+            min-width: 70vw;
+            max-width: 90vw;
+            min-height: 5vw;
+            text-align: left;
+            transition: all 0.2s ease-in-out;
+        }
+    
+        #search-event-btn.open{
+            cursor: pointer;
+            border-bottom-left-radius: 0px;
+            border-bottom-right-radius: 0px;
+        }
+        .search-suggestions-box {
+            display: none;
+            transition: all 0.3s ease-in-out;
+        }
+        .search-suggestions-box p{
+            
+            font-family: "Lexend", serif;
+            font-weight: 200;
+            font-size: 1.5rem;
+            color: #ffffff;
+            /* background-color: red; */
+            display: inline;
+            padding: 10px 20px;
+            text-align: left;
+        }
+        .search-suggestions-box.open{
+            display: block;
+            padding-top: 10px;
+            background-color: rgb(150, 150, 150);
+            border-bottom-right-radius: 10px ;
+            border-bottom-left-radius: 10px ;
+        }
+
+        .suggestions-container {
+            display: flex;
+            width: 100%;
+            min-width: 70vw;
+            max-width: 90vw;
+            justify-content: flex-start;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+            padding: 0px 10px;
+            margin-top: 10px;
+            /* background-color: blue; */
+            max-height: 50vh;
+            padding-bottom: 20px;
+        }
+        
+        .suggestions-container p{
+            font-size: .8rem;
+            padding: 5px;
+            background-color: white;
+            color: black;
+            font-weight: 500;
+            border-radius: 5px;
+            transition: all 0.2s ease-out;
+        }
+        .suggestions-container p:hover{
+            cursor: pointer;
+            transform: scale(1.1);
+        }
+
+        /* redundent */
+
+        /* .search-suggestions-box ul{
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            color: black;
+            padding: 10px;
+            max-height: 50vh;
+            overflow-y: scroll;
+            scrollbar-width: 5px;
+        }
+
+        .search-suggestions-box ul li{
+            list-style: none;
+            font-family: "Lexend", serif;
+            font-weight: 200;
+            font-size: 1.5rem;
+
+
+            
+            box-shadow: 2px 2px 10px  rgba(1, 1, 175, 0.2);
+            border-radius: 5px;
+            
+            color: #6b6b6b;
+            min-height: 60px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        } */
+
+
+        /* TODO  */
+        .search-suggestions-box ul li img{
+            height: 15vh;
+            aspect-ratio: 16/9;
+            object-fit: cover;
+
+            border-top-left-radius: 5px;
+            border-bottom-left-radius: 5px;
+        }
+
+
+
+
+
+        #popular-events-section {
+            /* min-height: 70vh; */
+            justify-content: flex-start;
+            padding: 20px 10px 40px 10px;
+            
+            background-color: #ffffff;
+            /* box-shadow: 0px 0px 50px 50px #ffffff; */
+        }
+
+        
+
+        .popular-events-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            gap: 20px;
+            width: 100%;
+            padding: 20px;
+            flex-basis: 1;
+            
+        }
+
+        .popular-event-card {
+            background-color: #e4e4e4;
+            width: 200px;
+            aspect-ratio: 16/9;
+            flex-grow: 1;
+            filter: drop-shadow(4px 8px 6px rgba(0, 0, 0, 0.3));
+            border-radius: 5px;
+            transition: all 0.2s ease-in-out;
+        }
+        .popular-event-card:hover{
+            transform: scale(1.04);
+        }
+
+        .popular-event-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+            
+        }
+
+
+        /* UPCOMING FESTIVALS SECTION */
+        #upcoming-festivals-section{
+            padding: 20px;
+        }
+
+        .popular-event-card p{
+            font-family: "Leckerli One", serif;
+            font-size: 24px;
+            margin-bottom: 10px;
+            text-align: center;
+            color: #000000;
+        }
+
+        @media (max-width: 768px){
+            .tag-line-container{
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .tag-line-container h3{
+                font-size: 6vw;
+            }
+        }
+
+        @media (max-width: 600px){
+            .ham-menu{
+                max-width: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-left">
+            <h1>Manage X</h1>
+        </div>
+        
+        <div class="nav-right">
+
+            <div class="ham-menu">
+                <ul>
+                    
+                    <li>Profile</li>
+                    <li>Account</li>
+                    <li>My Events</li>
+                    <li>Calendar</li>
+                    <li>Notifications</li>
+                    <li>Settings</li>
+                    <li>Logout</li>
+                </ul>
+            </div>
+
+            <div class="ham-icon">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <section id="hero-section">
+        <div class="tag-line-container">
+            <h3>Your Event,</h3>
+            <h3>Our Responsibility</h3>
+        </div>
+        
+        <div class="search-box">
+            <input id="search-event-btn" placeholder="Search Event Type"></input>
+            <div class="search-suggestions-box">
+                <p>Quick Suggestions</p>
+                <div class="suggestions-container">
+                    <p>Birthday</p>
+                    <p>Anniversary</p>
+                    <p>Wedding</p>
+                    <p>New Year</p>
+                    <p>Re-Union</p>
+                    <p>Winning Celebration</p>
+                </div>
+            </div>
+        </div>
+        
+        
+    </section>
+
+    <section id="popular-events-section">
+        <h2>POPULAR EVENTS</h2>
+        <div class="popular-events-container">
+            <div class="popular-event-card">
+                <img src="static/images/birthday-bg.webp" alt="">
+                <p>Birthday</p>
+            </div>
+            <div class="popular-event-card">
+                <img src="static/images/marrage-bg.webp" alt="">
+                <p>Wedding</p>
+            </div>
+            <div class="popular-event-card">
+                <img src="static/images/reunion.avif" alt="">
+                <p>Re-Union</p>
+            </div>
+            <div class="popular-event-card">
+                <img src="static/images/winning-bg.webp" alt="">
+                <p>Winning Celebration</p>
+            </div>
+        </div>
+    </section>
+    
+
+    <section id="upcoming-festivals-section">
+        <h2>UPCOMING FESTIVALS ...</h2>
+    </section>
+</body>
+
+<script>
+    const hamIcon = document.querySelector('.ham-icon');
+    const hamMenu = document.querySelector('.ham-menu');
+    const searchEventBtn = document.getElementById('search-event-btn')
+
+    searchEventBtn.addEventListener('click', () => {
+        searchEventBtn.classList.toggle('open');
+        searchEventBtn.nextElementSibling.classList.toggle('open');
+    });
+
+
+    hamIcon.addEventListener('click', () => {
+        hamIcon.classList.toggle('open');
+        hamMenu.classList.toggle('open');
+    });
+</script>
+</html>
